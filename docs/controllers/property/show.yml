@@ -1,0 +1,17 @@
+/properties/{propertyId}:
+  get:
+    tags:
+      - Property
+    summary: Show Property
+    parameters:
+      - name: propertyId
+        description: User ID
+        in: path
+        required: false
+        type: string
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          user: {}

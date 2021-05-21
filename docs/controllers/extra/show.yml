@@ -1,0 +1,14 @@
+/extras:
+  get:
+    tags:
+      - Extra
+    summary: List Extra
+    parameters:
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          careTypes: []
+          amenities: []
+          roomTypes: []

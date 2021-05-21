@@ -1,0 +1,20 @@
+/account/properties:
+  get:
+    tags:
+      - Account
+    summary: List Properties By Account
+    parameters:
+      - name: Authorization
+        description: Bearer JWT_TOKEN
+        in: header
+        type: string
+      - name: search
+        description: Search
+        in: query
+        type: string
+    responses:
+      200:
+        description: Response
+        example:
+          status: true
+          properties: []

@@ -1,0 +1,120 @@
+{
+    "containerDefinitions": [{
+        "command": null,
+        "cpu": 0,
+        "dependsOn": null,
+        "disableNetworking": null,
+        "dnsSearchDomains": null,
+        "dnsServers": null,
+        "dockerLabels": null,
+        "dockerSecurityOptions": null,
+        "entryPoint": null,
+        "environment": [{
+                "name": "NODE_ENV",
+                "value": "production"
+            },
+            {
+                "name": "HOST",
+                "value": "0.0.0.0"
+            },
+            {
+                "name": "PORT",
+                "value": "3333"
+            },
+            {
+                "name": "CACHE_VIEWS",
+                "value": "false"
+            },
+            {
+                "name": "APP_URL",
+                "value": "https://api.preview.assisten.com"
+            },
+            {
+                "name": "DB_CONNECTION",
+                "value": "mongodb"
+            },
+            {
+                "name": "SESSION_DRIVER",
+                "value": "cookie"
+            },
+            {
+                "name": "HASH_DRIVER",
+                "value": "argon2"
+            },
+            {
+                "name": "S3_BUCKET",
+                "value": "assisten-api-images-dev"
+            },
+            {
+                "name": "ENV_SILENT",
+                "value": "true"
+            }
+        ],
+        "essential": true,
+        "extraHosts": null,
+        "firelensConfiguration": null,
+        "healthCheck": null,
+        "hostname": null,
+        "image": "594458892392.dkr.ecr.us-west-2.amazonaws.com/assisten/v1/api:dev-latest",
+        "interactive": null,
+        "links": null,
+        "linuxParameters": null,
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "/ecs/assisten-v1-api-taskdef-dev",
+                "awslogs-region": "us-west-2",
+                "awslogs-stream-prefix": "ecs"
+            },
+            "secretOptions": null
+        },
+        "memory": null,
+        "memoryReservation": null,
+        "mountPoints": [],
+        "name": "assisten-v1-api-container-dev",
+        "portMappings": [{
+            "containerPort": 3333,
+            "hostPort": 3333,
+            "protocol": "tcp"
+        }],
+        "privileged": null,
+        "pseudoTerminal": null,
+        "readonlyRootFilesystem": null,
+        "resourceRequirements": null,
+        "secrets": [{
+                "name": "MONGO_CONNECTION_STRING",
+                "valueFrom": "arn:aws:secretsmanager:us-west-2:594458892392:secret:api-mongodb-url-dev"
+            },
+            {
+                "name": "APP_KEY",
+                "valueFrom": "arn:aws:secretsmanager:us-west-2:594458892392:secret:api-app-key-dev"
+            },
+            {
+                "name": "GOOGLE_MAPS_API_KEY",
+                "valueFrom": "arn:aws:secretsmanager:us-west-2:594458892392:secret:api-google-maps-api-key-dev"
+            }
+        ],
+        "startTimeout": null,
+        "stopTimeout": null,
+        "systemControls": null,
+        "ulimits": null,
+        "user": null,
+        "volumesFrom": [],
+        "workingDirectory": null
+    }],
+    "cpu": "256",
+    "executionRoleArn": "arn:aws:iam::594458892392:role/ecs-deploy-assisten-api-dev",
+    "family": "assisten-v1-api-taskdef-dev",
+    "inferenceAccelerators": null,
+    "ipcMode": null,
+    "memory": "1024",
+    "networkMode": "awsvpc",
+    "pidMode": null,
+    "placementConstraints": [],
+    "proxyConfiguration": null,
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "taskRoleArn": "arn:aws:iam::594458892392:role/assisten-v1-api-role-dev",
+    "volumes": []
+}

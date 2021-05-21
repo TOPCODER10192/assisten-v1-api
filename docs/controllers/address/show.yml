@@ -1,0 +1,17 @@
+/addresses/{addressId}:
+  get:
+    tags:
+      - Address
+    summary: Show Address
+    parameters:
+      - name: addressId
+        description: Address ID
+        in: path
+        required: false
+        type: string
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          user: {}

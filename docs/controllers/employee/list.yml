@@ -1,0 +1,16 @@
+/employees:
+  get:
+    tags:
+      - Employees
+    summary: List Employees
+    parameters:
+      - name: search
+        description: Search
+        in: query
+        type: string
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          employees: []

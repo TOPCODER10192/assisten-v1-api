@@ -1,0 +1,17 @@
+/users/{userId}:
+  get:
+    tags:
+      - Users
+    summary: Show User
+    parameters:
+      - name: userId
+        description: User ID
+        in: path
+        required: false
+        type: string
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          user: {}

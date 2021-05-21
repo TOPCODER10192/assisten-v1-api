@@ -1,0 +1,17 @@
+/property/{propertyId}/inquiries:
+  get:
+    tags:
+      - Property Inquiry
+    summary: List Inquiries By Property
+    parameters:
+      - name: propertyId
+        description: Property ID
+        in: path
+        required: false
+        type: string
+    responses:
+      200:
+        description: Response
+        example:
+          status: true
+          inquiries: []

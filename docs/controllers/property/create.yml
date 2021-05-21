@@ -1,0 +1,86 @@
+/properties:
+  post:
+    tags:
+      - Property
+    summary: Create Property
+    parameters:
+      - name: name
+        description: Name
+        in: formData
+        required: true
+        type: string
+      - name: heading
+        description: Heading
+        in: formData
+        required: true
+        type: string
+      - name: description
+        description: Description
+        in: formData
+        required: true
+        type: string
+      - name: cost
+        description: Cost
+        in: formData
+        required: true
+        type: cost
+      - name: location
+        description: Location
+        in: formData
+        required: true
+        type: string
+      - name: latitude
+        description: Latitude
+        in: formData
+        required: true
+        type: integer
+      - name: longitude
+        description: Longitude
+        in: formData
+        required: true
+        type: integer
+      - name: email
+        description: Email
+        in: formData
+        required: true
+        type: string
+      - name: phone
+        description: Phone
+        in: formData
+        required: true
+        type: string
+      - name: featPhoto
+        description: Featured Photo
+        in: formData
+        type: string
+      - name: photos
+        description: Photos
+        in: formData
+        type: array
+      - name: recur
+        description: Recurring Types
+        in: formData
+        enum: [daily,weekly,monthly]
+        type: string
+      - name: roomTypes
+        description: Room Types
+        in: formData
+        type: array
+      - name: typesOfCare
+        description: Care Types
+        in: formData
+        type: array
+      - name: amenities
+        description: Amenities
+        in: formData
+        type: array
+      - name: tags
+        description: Tags
+        in: formData
+        type: array
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          users: []

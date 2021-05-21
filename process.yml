@@ -1,0 +1,8 @@
+apps:
+    - script    : ./server.js         # Application's startup file name
+      name      : 'assisten-api'
+      ignore_watch: ['db', 'node_modules', 'next']
+      watch_options:
+          followSymlinks: false
+      instances : 4                    # Number of processes that must run in parallel, you can change this if you want
+      exec_mode : cluster              # Execution mode

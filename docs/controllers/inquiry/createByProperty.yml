@@ -1,0 +1,47 @@
+/property/{propertyId}/inquiries:
+  post:
+    tags:
+      - Property Inquiry
+    summary: Create Inquiry By Property
+    parameters:
+      - name: propertyId
+        description: Property ID
+        in: path
+        required: false
+        type: string
+      - name: firstname
+        description: First Name
+        in: formData
+        required: false
+        type: string
+      - name: lastname
+        description: Last Name
+        in: formData
+        required: false
+        type: string
+      - name: email
+        description: Email
+        in: formData
+        required: false
+        type: string
+      - name: phone
+        description: Phone
+        in: formData
+        required: false
+        type: string
+      - name: message
+        description: Message
+        in: formData
+        required: false
+        type: string
+      - name: schedule
+        description: Schedule
+        in: formData
+        required: false
+        type: string
+    responses:
+      200:
+        description: Response
+        example:
+          status: true
+          inquiries: []

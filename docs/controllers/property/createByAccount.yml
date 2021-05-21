@@ -1,0 +1,51 @@
+/account/properties:
+  post:
+    tags:
+      - Account
+    summary: Create Property By Account
+    parameters:
+      - name: Authorization
+        description: Bearer JWT_TOKEN
+        in: header
+        type: string
+      - name: name
+        description: Name
+        in: formData
+        type: string
+        required: true
+      - name: heading
+        description: Heading
+        in: formData
+        type: string
+        required: true
+      - name: phone
+        description: Phone
+        in: formData
+        type: string
+        required: true
+      - name: email
+        description: Email
+        in: formData
+        type: string
+        required: true
+      - name: location
+        description: Location
+        in: formData
+        type: string
+        required: true
+      - name: latitude
+        description: Latitude
+        in: formData
+        type: string
+        required: true
+      - name: longitude
+        description: Longitude
+        in: formData
+        type: string
+        required: true
+    responses:
+      200:
+        description: Response
+        example:
+          status: true
+          properties: []

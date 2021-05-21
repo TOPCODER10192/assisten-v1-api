@@ -1,0 +1,17 @@
+/employees:
+  post:
+    tags:
+      - Employees
+    summary: Create Employee
+    parameters:
+      - name: search
+        description: Username
+        in: query
+        required: false
+        type: string
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          employees: []

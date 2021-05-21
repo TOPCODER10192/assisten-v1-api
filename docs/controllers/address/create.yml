@@ -1,0 +1,36 @@
+/addresses:
+  post:
+    tags:
+      - Address
+    summary: Create Address
+    parameters:
+      - name: address
+        description: Address
+        required: true
+        type: string
+      - name: city
+        description: City
+        required: true
+        type: string
+      - name: stateOrProvince
+        description: State or Province
+        required: true
+        type: string
+      - name: zipOrPostal
+        description: Zip or Postal
+        required: true
+        type: string
+      - name: latitude
+        description: Latitude
+        required: true
+        type: string
+      - name: longitude
+        description: Longitude
+        required: true
+        type: string
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          users: []

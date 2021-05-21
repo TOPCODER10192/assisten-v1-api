@@ -1,0 +1,48 @@
+/properties:
+  get:
+    tags:
+      - Property
+    summary: List Property
+    parameters:
+      - name: search
+        description: Search
+        in: query
+        type: string
+      - name: cares
+        description: Care Types
+        in: query
+        type: string
+      - name: tags
+        description: Tags
+        in: query
+        type: string
+      - name: amenities
+        description: Amenities
+        in: query
+        type: string
+      - name: rooms
+        description: Room Types
+        in: query
+        type: string
+      - name: sort
+        description: Sort
+        in: query
+        type: string
+      - name: order
+        description: Order
+        in: query
+        type: string
+      - name: startcost
+        description: Start Cost
+        in: query
+        type: string
+      - name: endcost
+        description: End Cost
+        in: query
+        type: string
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          users: []

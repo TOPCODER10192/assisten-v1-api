@@ -1,0 +1,23 @@
+/auth:
+ post:
+   tags:
+     - Authentication
+   summary: Auth Endpoint
+   parameters:
+     - name: email
+       description: Email
+       in: formData
+       required: true
+       type: string
+     - name: password
+       description: Password
+       in: formData
+       required: true
+       type: string
+   responses:
+     200:
+       description: Response
+       example:
+         status: true
+         user:
+         token: xxxxxxxxx

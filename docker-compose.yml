@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  database:
+    image: mongo:4.4
+    container_name: 'assisten-mongo'
+    restart: always
+    ports:
+      - '27017-27019:27017-27019'
+    volumes:
+      - $PWD/db:/data/db
+      - $PWD/mongo/init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_DATABASE: assisten
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    # networks:
+    #   - assisten-network
+  api:
+    container_name: 'assisten-api'
+    command: pm2-runtime process.yml --watch
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - '3333:3333'
+    depends_on:
+      - database
+#     networks:
+#       - assisten-network
+#
+# networks:
+#   assisten-network:

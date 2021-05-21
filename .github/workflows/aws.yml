@@ -1,0 +1,108 @@
+# This workflow will build and push a new container image to Amazon ECR,
+# and then will deploy a new task definition to Amazon ECS, when a release is created
+#
+# To use this workflow, you will need to complete the following set-up steps:
+#
+# 1. Create an ECR repository to store your images.
+#    For example: `aws ecr create-repository --repository-name my-ecr-repo --region us-east-2`.
+#    Replace the value of `ECR_REPOSITORY` in the workflow below with your repository's name.
+#    Replace the value of `aws-region` in the workflow below with your repository's region.
+#
+# 2. Create an ECS task definition, an ECS cluster, and an ECS service.
+#    For example, follow the Getting Started guide on the ECS console:
+#      https://us-east-2.console.aws.amazon.com/ecs/home?region=us-east-2#/firstRun
+#    Replace the values for `service` and `cluster` in the workflow below with your service and cluster names.
+#
+# 3. Store your ECS task definition as a JSON file in your repository.
+#    The format should follow the output of `aws ecs register-task-definition --generate-cli-skeleton`.
+#    Replace the value of `task-definition` in the workflow below with your JSON file's name.
+#    Replace the value of `container-name` in the workflow below with the name of the container
+#    in the `containerDefinitions` section of the task definition.
+#
+# 4. Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
+#    See the documentation for each action used below for the recommended IAM policies for this IAM user,
+#    and best practices on handling the access key credentials.
+
+on:
+  release:
+    types: [created]
+  push:
+    branches:
+        - develop
+        # - main
+
+name: Deploy to Assisten containers on Amazon ECS
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Variables
+      id: setupVariables
+      run: |
+        SHORT_SHA=$(echo $GITHUB_SHA | head -c 7)
+        BRANCH=$(echo $GITHUB_REF | sed -e 's/.*heads\///')
+        BRANCH_SHA="$BRANCH-$SHORT_SHA"
+        echo "::set-output name=shortSHA::$SHORT_SHA"
+        echo "::set-output name=branch::$BRANCH"
+        echo "::set-output name=branchSHA::$BRANCH_SHA"
+        if [ $BRANCH == 'main' ]
+        then
+          echo "::set-output name=deployment::prod"
+        else
+          echo "::set-output name=deployment::dev"
+        fi
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        BRANCH: ${{ steps.setupVariables.outputs.branch }}
+        BRANCH_SHA: ${{ steps.setupVariables.outputs.branchSHA }}
+        DEPLOYMENT: ${{ steps.setupVariables.outputs.deployment }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: assisten/v1/api
+      run: |
+        # Build a docker container and
+        # push it to ECR so that it can
+        # be deployed to ECS.
+        docker image ls
+        docker build -t $ECR_REPOSITORY .
+        docker tag $ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$BRANCH_SHA
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$BRANCH_SHA
+        docker tag $ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$BRANCH-latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$BRANCH-latest
+        docker tag $ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$DEPLOYMENT-latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$DEPLOYMENT-latest
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$BRANCH_SHA"
+
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: .github/workflows/aws-api-task-definition-${{ steps.setupVariables.outputs.deployment }}.json
+        container-name: assisten-v1-api-container-${{ steps.setupVariables.outputs.deployment }}
+        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: assisten-v1-api-service-${{ steps.setupVariables.outputs.deployment }}
+        cluster: assisten-v1-api-cluster-${{ steps.setupVariables.outputs.deployment }}
+        wait-for-service-stability: true

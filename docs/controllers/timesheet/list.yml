@@ -1,0 +1,16 @@
+/timesheets:
+  get:
+    tags:
+      - Timesheet
+    summary: List Timesheet
+    parameters:
+      - name: search
+        description: Search
+        in: query
+        type: string
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          timesheets: []

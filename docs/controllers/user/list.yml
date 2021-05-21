@@ -1,0 +1,16 @@
+/users:
+  get:
+    tags:
+      - Users
+    summary: List Users
+    parameters:
+      - name: search
+        description: Search
+        in: query
+        type: string
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          users: []

@@ -1,0 +1,17 @@
+/users:
+  post:
+    tags:
+      - Users
+    summary: Create User
+    parameters:
+      - name: search
+        description: Username
+        in: query
+        required: false
+        type: string
+    responses:
+      200:
+        description: Response
+        content:
+          status: true
+          users: []
